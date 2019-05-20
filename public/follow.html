@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html class="rat">
+
+<head>
+   <title>Playing Page</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <link href="css/follow.css" rel="stylesheet" />
+   <script src="js/nohjae/jquery-1.11.1.js"></script>
+   <script src="js/nohjae/jquery.flot.js"></script>
+   <script src="js/nohjae/abc2svg-1.js"></script>
+   <script src="js/nohjae/xml2abc.js"></script>
+   <script src="js/nohjae/acoustic_grand_piano-mp3.js"></script>
+   <script src="js/nohjae/follow.js"></script>
+
+</head>
+
+<body class="rat">
+   <div id="logo">
+      <a href="/main"><img src="img/logo.png" alt="" class="logo" /></a>
+   </div>
+   <div id="btns">
+      <div id="mbar" tabindex="1">Menu</div>
+      <form id="menu">
+         <label id="flbl"><span>Score file:</span><input type="file" id="fknp" accept=".abc,.xml,.js,.musicxml"
+               tabindex="1"></label>
+         <!--<label id="drplbl" class="rflt"><span>Use dropbox:</span><input id="drpuse" type="checkbox"></label>-->
+         <label><span>Microphone:</span><input type="button" id="micKnop" value="Settings"></label>
+         <label><span>Output port: </span><select id="portsel">
+               <option value="nosound">No sound</option>
+               <option value="synth">Internal synth</option>
+            </select></label>
+         <!--<label class="rflt"><span>Midi echo:</span><input type="checkbox" id="echo" checked="true"></label>
+         <label><span>Test port:</span><input type="button" id="testport" value="Test port"></label>-->
+         <label><span>Follow mode:</span><select id="volgmod">
+               <option value="1">Adaptive tempo</option>
+               <option value="2">Constant tempo with statistics</option>
+               <option value="3">Constant tempo with life bar</option>
+               <option value="4">Adaptive (with timeout)</option>
+               <option value="5">Adaptive (minimum tempo)</option>
+            </select></label>
+         <label id="mtplab"><span>
+               <!--Min. tempo:--></span><input type="number" id="mtpo" min="1" max="200">
+            <!--bpm.--></label>
+         <label><span>Check mode:</span><select id="chkmod">
+               <option value="1">Top notes of selected staff</option>
+               <option value="2">All notes of selected staff</option>
+               <option value="3">All notes of grand staff</option>
+               <option value="4">All notes of all staves</option>
+            </select></label>
+         <label class="rflt"><span>Next note delay:</span><input type="checkbox" id="delay" checked="true"></label>
+         <label><span>Mute own staff:</span><input type="checkbox" id="mute"></label>
+         <label class="rflt"><span class="right">Play one note before start:</span><input type='checkbox'
+               id="eenvoor"></label>
+         <label><span>Metronome:</span><input type="checkbox" id="metro"></label>
+         <label class="rflt"><span>Keyboard:</span><input type="checkbox" id="keys"></label>
+         <!--<label><span>Show Timing:</span><input type="button" id="stats" value="Stats"></label>-->
+         <label class="rflt"><span>Show notes:</span><input type="checkbox" id="mark"></label>
+         <!----><label><span>Transparency:</span><input type="number" id="kbopa" min="0" max="9"> (0-9)</label>
+         <label class="rflt"><span>Two lines:</span><input type="checkbox" id="twosys"></label>
+         <label><span>Extract staff:</span><select id="extract">
+               <!---->
+               <option value="1">Off</option>
+               <option value="2">Single</option>
+               <option value="3">Grand</option>
+            </select></label>
+         <label class="rflt">Page width: <input type="number" id="pw" min="5" max="50"> cm</label>
+
+         <!--<label><span>Save Preload:</span><input type="button" id="save" value="Save"></label>-->
+         <!--<label class="rflt"><span style="width:5em">Help</span><a href="follow_readme.html"
+               target="_blank">ReadMe</a></label>-->
+         <label id="verlab"></label>
+      </form>
+   </div>
+   <div class="rat" id="info">
+      <label id="kwart"></label><input type="number" min="20" max="300" id="tempo">
+      <div id="mean">
+         <div></div>
+      </div>
+      <!---->
+      <label>e:<span id="error">0</span></label>
+      <input type='button' id="play" value="Play">
+      <label> MIC: </label><span id="micon">&#9673;</span>
+      <label> Size </label>
+      <button type="button" id="sizeUp1" value="5">+</button>
+      <button type="button" id="sizeDown1" value="5">-</button>
+      <label> Note </label>
+      <button type="button" id="goLeft" value="-1"> < </button>
+      <button type="button" id="goRight" value="1"> > </button>
+      <label> Two lines: <input type="checkbox" id="twosys1"></label>
+      <label> Keyboard: <input type="checkbox" id="keys1"></label>
+      <label> Full Screen: <input id="fscr" type="checkbox" /></label>
+      <label> Pencil: <input id="canvastool" type="checkbox"/></label>
+      <button id="eraser"> 지우기 </button>
+      <label><input type="button" id="micKnop1" value="Settings"></label>
+      <label id="flbl"> Score file: <input type="file" id="fknp1" accept=".abc,.xml,.js,.musicxml" tabindex="1">
+      </label>
+      
+   </div>
+   <div class="rat" id="notation">
+   </div>
+   <div id="rollijn" title="drag to reposition the focussed staff"></div><!--class="dashed" -->
+   <div id="zoom" title="horizontal drag shifts keys, vertical drag resizes"></div>
+   <div id="countin" class="dlog"></div>
+   
+   <!--이부분에서 에러남 KJ-->
+   <pre id="wait" class="dlog">Loding err! :</pre>
+   <div id="result" class="dlog">bla bla bla 123</div>
+   <div id="perf" class="dlog">
+      <div id="flot"></div>
+      <div id="best"></div>
+   </div>
+   <div id="comp" class="dlog">wait until all notes are computed (midi numbers 24 - 108) ... </div>
+   <div id="unlkDlg" class="dlog">
+      <p>Please, unlock the audio</p><button>Unlock Audio</button>
+   </div>
+   <div id="demoDlg" class="dlog"><span></span><button>Ok</button></div>
+   <div id="saveDlg" class="dlog">
+      <div id="div1"></div>
+      <div id="div4"></div>
+      <!--no space between inline-block elements! because it is rendered!!!
+ -->
+      <div id="div2">
+         <pre></pre>
+      </div>
+      <div id="div1"></div>
+      <div id="div3">
+         <button id="saveok">Close</button> <a href="#" download="preload.js" class="alsknop">Save Preload as File</a>
+      </div>
+   </div>
+   <div id="tuner" class="dlog">
+      <table>
+         <colgroup>
+            <col>
+            <col style="width: 30%;">
+            <col style="width: 5%;">
+            <col style="width: 30%;">
+            <col style="width: 4%;">
+            <col style="width: 12%;">
+         </colgroup>
+         <tr>
+            <td colspan="6"><canvas id="graaf" width="512" height="256"></canvas></td>
+         </tr>
+         <tr>
+            <td class="rtxt"><label><input id="micuse" type="checkbox"> Use Mic.</label></td>
+            <td>
+               <div id='levmrk'>&nbsp;</div>
+               <div id="mxlvl">
+                  <div></div>
+               </div>
+            </td>
+            <td class="lpad">dB</td>
+            <td><input type="range" id="gain" value="5.0" min="1" step="0.1" max="10"></td>
+            <td><span id="gval"></span></td>
+            <td>gain</td>
+         </tr>
+         <tr>
+            <td class="rtxt"><span id="noot">C0</span></td>
+            <td>
+               <div id="cents"><span></span>
+                  <div></div>
+               </div>
+            </td>
+            <td class="lpad">cent</td>
+            <td><input type="range" id="drempel" value="1.0" min="1" step="0.1" max="10"></td>
+            <td><span id="dval"></span></td>
+            <td>sensitivity</td>
+         </tr>
+         <tr>
+            <td class="rtxt">Analysis time</td>
+            <td>
+               <div id="anatijd">
+                  <div></div>
+               </div>
+            </td>
+            <td class="lpad">msec</td>
+            <td><input type="range" id="minlev" value="-18" min="-40" step="1" max="0"></td>
+            <td><span id="mval"></span></td>
+            <td>min.level</td>
+         </tr>
+         <tr>
+            <td class="rtxt">(lowest F#2)</td>
+            <td><label><input type="checkbox" id="bass"> Bass guitar</label></td>
+            <td></td>
+            <td><a href="follow_readme.html#micdlg" target="_blank">Help</a></td>
+            <td></td>
+            <td><input type="button" id="micOk" value="OK"></td>
+         </tr>
+      </table>
+   </div>
+   <div id="keyb">
+      <div id="toetsen"></div>
+   </div>
+   <div id="keybdata">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="octaaf" viewBox="0 0 162 120.99999" height="100%"
+         preserveAspectRatio="none">
+         <g id="layer1" transform="translate(-43.787731,-362.55423)">
+            <g id="g3723">
+               <rect id="rect3496" height="120" width="23" y="363.05423" x="44.287731"
+                  style="fill:#ffffff;stroke:#000000" />
+               <rect id="rect3498" height="120" width="23" y="363.05423" x="67.287727"
+                  style="fill:#ffffff;stroke:#000000" />
+               <rect id="rect3500" height="120" width="23" y="363.05423" x="90.287727"
+                  style="fill:#ffffff;stroke:#000000" />
+               <rect id="rect3502" height="120" width="23" y="363.05423" x="113.28773"
+                  style="fill:#ffffff;stroke:#000000" />
+               <rect id="rect3504" height="120" width="23" y="363.05423" x="136.28773"
+                  style="fill:#ffffff;stroke:#000000" />
+               <rect id="rect3506" height="120" width="23" y="363.05423" x="159.28773"
+                  style="fill:#ffffff;stroke:#000000" />
+               <rect id="rect3508" height="120" width="23" y="363.05423" x="182.28773"
+                  style="fill:#ffffff;stroke:#000000" />
+               <rect id="rect3510" height="64.104492" width="13.010182" y="363.00198" x="58.568813"
+                  style="fill:#000000;stroke:#000000;stroke-width:0.89550751" />
+               <rect id="rect3512" height="64.104492" width="13.010182" y="363.00198" x="85.923553"
+                  style="fill:#000000;stroke:#000000;stroke-width:0.89550751" />
+               <rect id="rect3514" height="64.104492" width="13.010182" y="363.00198" x="126.53867"
+                  style="fill:#000000;stroke:#000000;stroke-width:0.89550751" />
+               <rect id="rect3516" height="64.104492" width="13.010182" y="363.00198" x="152.55905"
+                  style="fill:#000000;stroke:#000000;stroke-width:0.89550751" />
+               <rect id="rect3518" height="64.104492" width="13.010182" y="363.00198" x="179.07979"
+                  style="fill:#000000;stroke:#000000;stroke-width:0.89550751" />
+            </g>
+         </g>
+      </svg>
+   </div>
+   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="kbrgt" viewBox="0 0 11.100925 33.302772" height="50px"
+      width="50px">
+      <title>click shifts one octave, press-and-hold makes keys broader</title>
+      <path id="path10252" d="m 0.5,1.6513858 0,29.9999992 10,-15 z"
+         style="fill:none;fill-rule:evenodd;stroke:#00ff00;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5" />
+   </svg>
+   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="kblft" viewBox="0 0 11.100925 33.302772" height="50px"
+      width="50px">
+      <title>click shifts one octave, press-and-hold makes keys smaller</title>
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#00ff00;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         d="m 10.600925,1.6513858 0,29.9999992 -9.99999978,-15 z" id="path10253" />
+   </svg>
+
+   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="mtrsvg" viewBox="0 0 220.31308 310.88881" width="20px">
+      <g transform="translate(-168.05564,-173.54485)" id="g3537">
+         <g id="layer1">
+            <path id="path9868" d="m 245.73622,175.45935 -76.37696,284.7106 217.71005,0 -75.66317,-285.61445 z"
+               style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+            <path id="path9872" d="m 187.81381,391.35577 181.41126,0"
+               style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+            <path id="path9880" d="M 378.50585,249.287 290.81011,391.32898"
+               style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+            <rect transform="matrix(0.84278384,0.53825217,-0.52161495,0.85318102,0,0)" y="20.876596" x="442.99142"
+               height="25.758644" width="19.224855" id="rect9882"
+               style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <path
+               style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:8px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+               d="m 277.14286,223.79078 0,167.85714" id="path9874" />
+            <path id="rect10855" d="m 194.64285,460.21936 28.57143,0 -6,23.21429 -16.57143,0 z"
+               style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <path
+               style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+               d="m 328.64285,460.21936 28.57143,0 -6,23.21429 -16.57143,0 z" id="path10858" />
+         </g>
+      </g>
+   </svg>
+</body>
+
+</html>

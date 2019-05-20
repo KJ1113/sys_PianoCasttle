@@ -1,0 +1,85 @@
+#logo {text-align: center; height: 15%; }
+.rat { width: 100%; height:100%; margin:0px; overflow: auto; }
+body { -webkit-tap-highlight-color: transparent; -webkit-user-select: none; -webkit-touch-callout: none; }
+html, body { background: white; }   /* for full screen */
+label, input, select, #mbar { font-family: arial; font-size: 15px; }
+#btns     { position: absolute; right: 0px; z-index:3; height: 85%; overflow-y: auto; }
+#mbar     { padding: 10px 4px 10px 4px; text-align: right; background-color: #eee; }
+#mbar:hover { cursor: pointer; }
+#mbar.down { background-color: #aaa !important;}
+#menu     { background-color: #eee; padding-left: 5px; padding-right: 5px; }
+#menu label { display:block; margin-bottom: 8px; }
+#menu label > span { display: inline-block; width: 7.5em; }
+#menu label > span.right { display: inline-block; width: auto; }
+#info     { height:  5%; background-color: #eee; }
+#info span { width: 2em; display: inline-block; text-align: right; padding-right:3px; }
+#kwart    { padding-left:4px; padding-right:4px; }
+#kwart:hover { cursor: pointer; }
+#mtrsvg   { vertical-align: bottom; padding-top: 4px; }
+#tempo    { width: 3em; }
+#notation { height: 75%;display: inline-block; vertical-align: top; }
+#countin  { width:1em; font-size:10em; z-index:2; color:green; background:none; }
+#perf     { width:80%; z-index:3; }
+#flot     { height: 90%; }
+#mean     { /*width: 200px; */background-color: #bbb; padding: 2px; display: inline-block;}
+/*#mean > div { background: orange; }*/
+#keyb     { position: absolute; bottom: 0px; height: 30%; width: 100%; overflow: hidden; display: none; }
+#toetsen  { height: 100%; white-space: nowrap; }
+#zoom     { position: absolute; bottom: 30%; width: 100%; height: 50px; z-index:2; display: none }
+#zoom:hover { cursor: grab; background: rgba(0,255,0,0.3); }
+#kblft    { position: absolute; left: 0px; bottom: 30%; width: 30px; z-index:2; display: none }
+#kblft:hover { cursor: pointer; }
+#kbrgt    { position: absolute; right:0px; bottom: 30%; width: 30px; z-index:2; display: none }
+#kbrgt:hover { cursor: pointer; }
+#keybdata { display: none }
+/*#rollijn  { position:absolute; height:30px; width:100%; z-index:1; top: 30%; }
+#rollijn:hover { cursor: row-resize; background: rgba(0,255,0,0.3); }*/
+#kbopa    { width: 2em; }
+#pw, #mtpo     { width: 2.5em; }
+#demoDlg  { width: 80%; }
+#demoDlg li { margin-bottom: 5px; }
+#saveDlg  { width:80%; height:80%; z-index:9; border: medium black ridge; box-shadow: 10px 10px 5px #888888; }
+#saveDlg #div1 { height:2%; }
+#saveDlg #div2 { height:90%; width:99%; overflow: scroll; background: white; display:inline-block; vertical-align: bottom; }
+#saveDlg #div4 { height:90%; width:1%; display:inline-block; vertical-align: bottom; }
+#saveDlg #div3 { height:6%; overflow: hidden; }
+#saveDlg pre { margin:0px; -webkit-user-select: text; }
+#saveDlg button { margin-left:1em; }
+.dashed   { border-bottom: thin dashed black; }
+.abcref { fill-opacity: 0.1; }
+/*.rflt     { float: right }*/
+.dlog      { display:none; background:lightblue; position:absolute; top: 50%; left: 50%; width:30%; padding:10px; transform: translate(-50%,-50%); z-index:9; }
+.neer { fill: #ff0000 !important; }
+.spel { background: rgba(0,255,0,0.3) !important;}
+.alsknop { display: inline-block; padding: 2px 8px; background: ButtonFace; color: ButtonText; border-style: solid;
+           border-width: 2px; border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight; }
+.alsknop:active { border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow; }
+/******** microfoon dialoog **********/
+#tuner    { width: 95%; max-width: 800px; }
+#tuner table { width: 100%; }
+#tuner td { white-space: nowrap; }
+input[type=range] { width: 100%; margin: 0px; }
+#mxlvl, #cents, #anatijd { width: 100%; background-color: #bbb; padding: 2px; display: inline-block;}
+#mxlvl > div   { background: orange; }
+#cents > div   { display: inline-block; background: #0cc; }
+#cents > span  { display: inline-block; }
+#anatijd > div { background: #ccc; }
+#graaf    { border: #aaa solid 1px; }
+#micOk    { float: right; padding-left: 10px; padding-right: 10px; }
+#levmrk   { position: absolute; border-right: blue solid 2px; width: 30%; width: 50px; padding-top:2px; padding-bottom:2px;}
+#noot     { font-size: large; font-weight: bold; }
+.lpad     { padding-left: 5px; }
+.rtxt     { text-align: right; }
+#info #micon   { color: #666; width: auto; }
+#micon:hover   { cursor: pointer; }
+
+#canvas {
+    position: absolute;
+    top:150px;
+    left: 0;
+    background-color: transparent;
+    z-index: 5;
+}
+#leeg { z-index: 1;}
+#notaion svg  { z-index: 1;}
+.music { z-index: 1;}

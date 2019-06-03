@@ -73,13 +73,21 @@ input[type=range] { width: 100%; margin: 0px; }
 #info #micon   { color: #666; width: auto; }
 #micon:hover   { cursor: pointer; }
 
-#canvas {
+.canvas {
     position: absolute;
     top:150px;
     left: 0;
     background-color: transparent;
     z-index: 5;
 }
+.errD {
+    position: absolute;
+    top:150px;
+    left: 0;
+    background-color: transparent;
+    z-index: 4;
+}
+.errDisplay{z-index: 10;}
 #leeg { z-index: 1;}
 #notaion svg  { z-index: 1;}
 .music { z-index: 1;}

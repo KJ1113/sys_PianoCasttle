@@ -161,7 +161,7 @@
                   <ul class="nav topnav">
 
                     <li>
-                      <a href="Community.html">Community </a>
+                      <a href="community">Community </a>
                     </li>
                     <li>
                       <a href="score-down">Download </a>
@@ -266,30 +266,29 @@
 
     <div class="span6">
         <h5><strong>내 악보</strong></h5>
-        <button type="button" class="btn btn-outline btn-primary pull-right" id="scoredelBtn">삭제</button>
-        <table class="table table-striped" id ="myScoreList_tbody">
+        <div class="card-header">
+            악보 리스트
+        </div>
+        <!--button type="button" class="btn btn-outline btn-primary pull-right" id="scoredelBtn">삭제</button>-->
+      
+        <table class="table table-striped" id ="myScoreList" >
           <thead>
-            <tr> 
-              <th>
-                #
-              </th>
-              <th>
-                Score name
-              </th>
-              <th>
-                수정날짜
-              </th>
-              <th>
-                선택
-              </th>
-            </tr>
+              <tr> 
+                  <th>
+                    악보 이름
+                  </th>
+                  <th>
+                    등록날짜
+                  </th>
+                </tr>
           </thead>
-          <tbody >
-            
-          </tbody>
-        </table>
+            <div >
+              <tbody>
+              </tbody>
+            </div>
+          </table>
+        </div>
       </div>
-
   </div>
 </div>
 
@@ -297,12 +296,12 @@
   <div class="row">
     <div class="span12">
       <h5><strong>게시글 목록</strong></h5>
-      <button type="button" class="btn btn-outline btn-primary pull-right" id="postdelBtn">삭제</button>
-      <table class="table table-striped" id = "mypost">
+      
+      <table class="table table-striped" id = "mypostList">
         <thead>
           <tr>
             <th>
-              #
+              글 번호
             </th>
             <th>
               글 제목
@@ -310,90 +309,11 @@
             <th>
               날짜
             </th>
-            <th>
-              조회수
-            </th>
-            <th>
-              선택
-            </th>
+           
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              1
-            </td>
-            <td>
-              Mark
-            </td>
-            <td>
-              2019.03.12
-            </td>
-            <td>
-                5
-            </td>
-            <td><input type="checkbox" name="score_CheckBox" ></td>
-          </tr>
-          <tr>
-            <td>
-              2
-            </td>
-            <td>
-              Jacob
-            </td>
-            <td>
-              2019.03.12
-            </td>
-            <td>
-              9
-            </td>
-            <td><input type="checkbox" name="score_CheckBox" ></td>
-          </tr>
-          <tr>
-            <td>
-              3
-            </td>
-            <td>
-              Larry the Bird
-            </td>
-            <td>
-              2019.03.13
-            </td>
-            <td>
-                9
-            </td>
-            <td><input type="checkbox" name="score_CheckBox" ></td>
-          </tr>
-          <tr>
-            <td>
-              4
-            </td>
-            <td>
-              Jacob
-            </td>
-            <td>
-              2019.03.13
-            </td>
-            <td>
-               11
-            </td>
-            <td><input type="checkbox" name="score_CheckBox" ></td>
-          </tr>
-          <tr>
-            <td>
-              5
-            </td>
-            <td>
-              Larry the Bird
-            </td>
-            <td>
-              2019.03.14
-            </td>
-            <td>
-              14
-            </td>
-            <td><input type="checkbox" name="score_CheckBox" ></td>
-          </tr>
+         
         </tbody>
       </table>
     </div>

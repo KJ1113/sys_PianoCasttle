@@ -67,6 +67,8 @@
             </select></label>
          <label class="rflt">Page width: <input type="number" id="pw" min="5" max="50"> cm</label>
 
+         <label>a<input type="number" id="svgId" value="0"></label>
+         <label>a<input type="text" id="scale" value="0"></label>
          <!--<label><span>Save Preload:</span><input type="button" id="save" value="Save"></label>-->
          <!--<label class="rflt"><span style="width:5em">Help</span><a href="follow_readme.html"
                target="_blank">ReadMe</a></label>-->
@@ -91,11 +93,24 @@
       <label> Two lines: <input type="checkbox" id="twosys1"></label>
       <label> Keyboard: <input type="checkbox" id="keys1"></label>
       <label> Full Screen: <input id="fscr" type="checkbox" /></label>
+      <label> Highlighting: <input id="hlbox" type="checkbox"/></label>
       <label> Pencil: <input id="canvastool" type="checkbox"/></label>
-      <button id="eraser"> 지우기 </button>
+      <button id="eraser"> Eraser </button>
       <label><input type="button" id="micKnop1" value="Settings"></label>
-      <label id="flbl"> Score file: <input type="file" id="fknp1" accept=".abc,.xml,.js,.musicxml" tabindex="1">
+      <label> Output: <select id="portsel1">
+         <option value="nosound"> - </option>
+         <option value="synth">Internal</option>
+      </select></label>
+      <label> Mode: <select id="chkmod1">
+         <option value="2">선택된 파트의 모든 음표 연주</option>
+         <option value="3">2개 파트의 모든 음표 연주</option>
+         <option value="4">모든 파트의 모든 음표 연주</option>
+      </select></label>
+      <!--
+      <label id="flbl"> 
+         Score file: <input type="file" id="fknp1" accept=".abc,.xml,.js,.musicxml" tabindex="1">
       </label>
+      -->
       
    </div>
    <div class="rat" id="notation">

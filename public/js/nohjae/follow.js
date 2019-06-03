@@ -74,8 +74,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
             $('#notation svg').attr('ondragstart', false);
             $('#notation svg').attr('onselectstart', false);
             $('#notation svg').attr('onclick', false);
-            $('#canvas').removeAttr('hidden');
-            canvas = document.getElementById("canvas");
+            canvas = document.getElementById("canvas"+currentSVG);
             ctx = canvas.getContext("2d");
             canvas.addEventListener("mousedown", listener);
             canvas.addEventListener("mousemove", listener);
@@ -84,7 +83,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
             canvasHandler = 0;
         }
         else {
-            $('#canvas').attr('hidden', 'hidden');
+            $('#canvas'+currentSVG).attr('hidden', 'hidden');
             canvasHandler = 1;
         }
     }
@@ -143,21 +142,160 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
     }
 
     function clearCanvas() {
-        var cnvs = document.getElementById("canvas");
+        var cnvs = document.getElementById("canvas"+currentSVG);
         ctx.clearRect(0, 0, cnvs.width, cnvs.height);
         ctx.beginPath();
     }
     function e(a, c, b) { var d = B.createBufferSource(); d.buffer = Hb[a]; var f = B.createGain(); f.gain.value = c / 50; d.connect(f); f.connect(B.destination); d.start(b, .06); ab[a] = d; delete Da[a]; }
     function x(a, c) { var b = ab[a]; b && (bb ? Da[a] = 1 : (b.stop(c), ab[a] = void 0)); }
     function t(a) { var c = "C Db D Eb E F Gb G Ab A Bb B".split(" "), b = a.shift(); b ? (c = MIDI.Soundfont.acoustic_grand_piano[c[b % 12] + (Math.floor(b / 12) - 1)].split(",")[1], Ib(c, function (c) { Hb[b] = c; $("#comp").append(", " + b); Jb[b] = 1; t(a); })) : (P = 1, $("#comp").toggle(!1)); }
-    function A(a) {
-        function c(a, b) { a.preventDefault(); B.resume().then(function () { y("Audio unlocked"); $("#unlkDlg").toggle(!1); $("#unlkDlg button").off("mouseup touchend keydown"); b(); }, function () { $("#unlkDlg").append("Unlock failed ..."); }); }
-        var b = function () { $("#comp").toggle(!0); t(d); }, d = Object.keys(a).filter(function (a) { return !(a in Jb); });
-        d.length ? (console.log("audioCtx.state: ", B.state), "suspended" == B.state ? ($("#unlkDlg").toggle(!0), $("#unlkDlg button").on("mouseup touchend keydown", function (a) {
-            a.stopPropagation();
-            c(a, b);
-        }).focus()) : b()) : P = 1;
+    ////////////////////////////////////////////////////////
+    // 커재가 수정한 메소드 //
+    var filedata;
+    var scorename =getparameter("sheet");
+
+    //KJ
+    function getparameter(paramName) {
+        // 리턴값을 위한 변수 선언 
+        var returnValue;
+        // 현재 URL 가져오기 
+        var url = location.href;
+        // get 파라미터 값을 가져올 수 있는 ? 를 기점으로 slice 한 후 split 으로 나눔 
+        var parameters = (url.slice(url.indexOf('?') + 1, url.length)).split('&');
+        // 나누어진 값의 비교를 통해 paramName 으로 요청된 데이터의 값만 return 
+        for (var i = 0; i < parameters.length; i++) {
+            var varName = parameters[i].split('=')[0];
+            if (varName.toUpperCase() == paramName.toUpperCase()) {
+                returnValue = parameters[i].split('=')[1];
+                return decodeURIComponent(returnValue);
+            }
+        }
     }
+    
+    $.get("/user-score?score_name="+scorename, function(data) {
+        filedata = data;
+        //wc();
+        Z(filedata);
+        ya("portsel1",0);
+        //Hc();
+    });
+    
+    
+    //노재노재
+    var high = 0;
+    function highlighting(){
+        if(high==0){
+            for(var i=0; i<parseFloat($("#svgId").val()); i++){
+                if(currentSVG==i)
+                    $("#errD"+i).removeAttr('hidden');
+            }
+            high = 1;
+        }
+        else{
+            for(var i=0;i<parseFloat($("#svgId").val());i++){
+                $("#errD"+i).attr('hidden','hidden');
+            }
+            high = 0;
+        }
+    }
+
+    function wc() {
+        console.log("wc함수 시작");
+        var a = new FileReader; 
+        a.onload = function (b) {
+            console.log("-WC a.onload");
+            Z(a.result); 
+            console.log("Z끝");
+            na();
+            console.log("테스트");
+        };
+        test =new file("C:\dev\Web\sys_PianoCasttle\scoreFile\testScore.musicxml");
+        var c = $("#fknp1").prop("files")[0]; 
+        c && a.readAsText(c);
+        console.log("wc끝");
+    }
+
+    function Z(a) {
+        console.log("Z함수");
+        var c = a.slice(0, 4E3);
+        0 == c.indexOf("pre_opt = {") ? (eval(a), cb()) : (
+            Kb(), 0 <= c.indexOf("X:") ? Ea(a) : -1 == c.indexOf("<?xml ") 
+            ? alert("not an xml file nor an abc file") :(
+                //console.log($.parseXML(ac)),
+                //console.log("********************************"),
+                //console.log($.parseXML(a)),
+                a = $.parseXML(a),a = vertaal(a, { p: "f", t: 1, u: 0, v: 3 }), a[1] && y(a[1]), Ea(a[0])));
+    }
+
+    function Ic() {
+        var a, c = "", b = "", d, f, e, g, u;
+        $("#err").text("");
+        a = window.location.href.replace("?dl=0", "").split("?");
+        if (d = a[0].match(/:\/\/([^/:]+)/))
+            g = d[1];
+        if (1 < a.length) {
+            f = a[1].split("&");
+            for (e = 0; e < f.length; e++)
+                a =
+                    f[e].replace(/d:(\w{15}\/[^.]+\.)/, "https://dl.dropboxusercontent.com/s/$1"), (d = a.match(/tmp=([\d.]*)/)) ? h.tempo = parseFloat(d[1]) : (d = a.match(/stf=(\d+)/)) ? h.staff = parseInt(d[1]) : (d = a.match(/mod=(\d+)/)) ? h.chkmod = parseInt(d[1]) : (d = a.match(/fmd=(\d+)/)) ? h.volgmod = parseInt(d[1]) : (d = a.match(/opa=(\d)/)) ? h.kbopa = parseInt(d[1]) : (d = a.match(/line=(\d+)/)) ? h.line = parseInt(d[1]) : (d = a.match(/pw=(\d+)/)) ? h.pw = parseInt(d[1]) : "ip" == a && g ? h.ipadr = g : "ipm" == a && g ? (h.ipadr = g, h.mstr = 1) : "nomet" == a ? h.metro = 0 : "nodel" == a ?
+                        h.delay = 0 : "keyb" == a ? h.keys = 1 : "ksh" == a ? h.mark = 1 : "syn" == a ? h.portsel = "synth" : "play" == a ? h.play = 1 : "nobar" == a ? h.nobar = 1 : "nomenu" == a ? h.nomenu = 1 : "extr" == a ? h.extract = 2 : "extrg" == a ? h.extract = 3 : "2ln" == a ? h.twosys = 1 : "nocur" == a ? h.nocur = 1 : "mute" == a ? h.mute = 1 : "sctmp" == a ? h.sctmp = 1 : b = a, /(\.xml$)|(\.abc$)/.test(b) && (c = b, b = "");
+            (b || c) && $("#wait").toggle(!1);
+            c ? $.get(c, "", null, "text").done(
+                function (a, b) {
+                    y("preload: " + b);
+                    Z(a); na();
+                    $("#wait").toggle(!1);
+                }).fail(function (a, b, c) {
+                    $("#wait").append("\npreload failed: " + b);
+                }) : b &&
+                (0 <= b.indexOf("dropbox.com") && (b += "?dl=1"),
+                    $.getScript(b).done(
+                        function (a, b) {
+                            y("preload: " + b); cb();
+                        }).fail(
+                            /*
+                            function (a, c, d) {
+                                var fileName = getparameter("sheet");
+                                $("#wait,#err").append("???");
+                                u = document.createElement("script"); u.src = b;
+                                u.onload = function () { cb(); };
+                                u.onerror = function () {
+                                    $("#wait").append(fileName);
+                                };
+                                document.head.appendChild(u);
+                                document.head.removeChild(u);
+                                
+                            }*/));
+        }
+        return b || c;
+    }
+    ///////커커 수정 끝///////////
+
+    function A(a) {
+        function c(a, b) { 
+            a.preventDefault(); 
+            B.resume().then(function () { 
+                y("Audio unlocked"); 
+                $("#unlkDlg").toggle(!1); 
+                $("#unlkDlg button").off("mouseup touchend keydown"); 
+                b(); 
+            },function () { 
+                $("#unlkDlg").append("Unlock failed ..."); 
+            }); 
+        }
+
+        var b = function () { 
+            $("#comp").toggle(!0); 
+            t(d); }, d = Object.keys(a).filter(function (a) { 
+                return !(a in Jb); 
+            });d.length ? (
+            console.log("A 함수 : audioCtx.state: ", B.state), 
+            "suspended" == B.state ? (
+                //b()
+                $("#unlkDlg").toggle(!0), $("#unlkDlg button").on("mouseup touchend keydown", function (a) {a.stopPropagation();c(a, b);}).focus()
+                ) : b()) : P = 1;
+    }
+   
 
     function C(a) {
         a = a[0].link; a = a.replace("www.dropbox", "dl.dropboxusercontent").split("?")[0];
@@ -173,21 +311,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
             });
     }
 
-    function Z(a) {
-        var c = a.slice(0, 4E3);
-        0 == c.indexOf("pre_opt = {") ? (eval(a), cb()) : (Kb(), 0 <= c.indexOf("X:") ? Ea(a) : -1 == c.indexOf("<?xml ") ? alert("not an xml file nor an abc file") : (a = $.parseXML(a),
-            a = vertaal(a, { p: "f", t: 1, u: 0, v: 3 }), a[1] && y(a[1]), Ea(a[0])));
-    }
-    // 커커커
-    function wc() {
-       
-    }
-
-    $.get("/user-score", function(data) {
-        //$('#notation').text(data)
-        document.getElementById('notation').innerHTML = data;
-    });
-
+   
     function Ea(a, c) {
         D = a;
         var b = a.split("\n");
@@ -324,7 +448,15 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
             }, get_abcmodel: null
         }), b.tosvg("abc2svg", a), "" == f && (f = "no error\n"), y(f), d)) {
             $("#notation").html('<div id="leeg" style="height:5px">&nbsp;</div>');
-            $("#notation").append('<canvas id="canvas" width="1920" height="770"></canvas>');
+            var el = document.getElementById( "notation" );
+            var pos = getPosition1( el );
+            
+            for(var i=0; i<parseFloat($("#svgId").val()); i++){
+                $("#notation").append('<canvas class="canvas" id="canvas'+i+'" width="'+pos.w+'" height="'+pos.h+'" hidden="hidden"></canvas>');
+            }
+            for(var i=0; i<parseFloat($("#svgId").val()); i++){
+                $("#notation").append('<canvas class="errD" id="errD'+i+'" width="'+pos.w+'" height="'+pos.h+'" hidden="hidden"></canvas>');
+            }
             $("#notation").append(d);
             $("#notation").append('<div id="leeg" style="height:5px">&nbsp;</div>');
             $("#leeg").click(function () { G ? qa() : ga(); });
@@ -370,7 +502,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
         var c = 0 < p ? q[p].t : 0;
         q = [];
         Ja = {};
-        var b = $("#chkmod").val(), d = R.filter(function (b) { return !b.bt && b.v in a; }).map(function (a) { return a.t; });
+        var b = $("#chkmod1").val(), d = R.filter(function (b) { return !b.bt && b.v in a; }).map(function (a) { return a.t; });
         d.push(d[d.length - 1] + 1600);
         var f = d.shift(), k = [], m = [], e, r = [], g = [], l, h, n;
         for (e = 0; e < R.length; ++e) {
@@ -576,26 +708,6 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
             c.resolve("ok2");
         c.done(function (a) { sa(); p = S; setTimeout(function () { H(0); }, 1E3); });
     }
-
-    //KJ
-    function getparameter(paramName) {
-        // 리턴값을 위한 변수 선언 
-        var returnValue;
-        // 현재 URL 가져오기 
-        var url = location.href;
-        // get 파라미터 값을 가져올 수 있는 ? 를 기점으로 slice 한 후 split 으로 나눔 
-        var parameters = (url.slice(url.indexOf('?') + 1, url.length)).split('&');
-        // 나누어진 값의 비교를 통해 paramName 으로 요청된 데이터의 값만 return 
-        for (var i = 0; i < parameters.length; i++) {
-            var varName = parameters[i].split('=')[0];
-            if (varName.toUpperCase() == paramName.toUpperCase()) {
-                returnValue = parameters[i].split('=')[1];
-                return decodeURIComponent(returnValue);
-            }
-        }
-    }
-
-
     function H(a, c, b) {
         p += a;
         0 > p && (p = 0);
@@ -648,26 +760,69 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
                 case 81: xa = 1, Qa();
             }
     }
+    var currentSVG=0;
     function Yb(a) {
         var c = q[p]; if (c && !aa) {
             var b = Object.keys(c.ptc);
-            a in c.ptc ? nb[a] = 1 : (Oa += 1, $("#error").html(Oa));
-            Object.keys(nb).length == b.length && H(1);
+            if( high == 0 ){
+                a in c.ptc ? nb[a] = 1 : (Oa += 1, $("#error").html(Oa));
+            }
+
+            else if(high == 1){
+                if(a in c.ptc){
+                    nb[a] = 1;
+                }
+                else{
+                    
+                    canvas1 = document.getElementById("errD"+currentSVG);
+                    ctx1 = canvas1.getContext("2d");
+
+                    var el = document.getElementById( "wijzer" );
+                    var pos1 = getPosition1( el );
+
+                    ctx1.fillStyle ='rgba(255, 0, 0, 0.5)';
+                    ctx1.fillRect(pos1.x,pos1.y-150,pos1.w,pos1.h);
+                    ctx1.stroke();
+
+                    //$("#errD"+currentSVG).append('<rect class="errDisplay" id="errerr'+errCnt+'" fill="red" fill-opacity="0.5" width="'+errW+'" x="'+errX+'" y="'+errY+'" height="'+errH+'">');
+                    Oa += 1;
+                    $("#error").html(Oa);
+                    nb[a] = 1;
+                }
+            }
+
+            Object.keys(nb).length == b.length && H(1) && (currentG += 1);
         }
     }
+    function getPosition1( element ) {
+        var rect = element.getBoundingClientRect();
+        return {x:rect.left,y:rect.top,w:rect.width,h:rect.height};
+     }
     function Zb() {
         for (var a = ha(), c = 0; 3 > c; ++c)
             ta(a, 60 + 2 * c, 300), a += 310;
     }
     function sb(a) {
+        svg11 = document.getElementById("svg"+currentSVG);
+        if(svg11.style.display == "none"){
+            $("#errD"+currentSVG).attr('hidden','hidden');
+            $("#canvas"+currentSVG).attr('hidden','hidden');
+            currentSVG += 1;
+            if(currentSVG==$("#svgId").val())
+                currentSVG=0;
+            $("#errD"+currentSVG).removeAttr('hidden');
+            $("#canvas"+currentSVG).removeAttr('hidden');
+        }
         var c = a.data[0];
         254 !=
             c && (144 == c && 0 < a.data[2] && Yb(a.data[1]), $b && ua(a.data, ha()));
     }
-    function Fc(a) { y("MIDI ready!Listening to following input ports:"); var c = 0; a.inputs.forEach(function (a) { a.onmidimessage = sb; y(c + ": " + a.name + ', "' + a.manufacturer + '"'); c++; }); y("The following output ports are present:"); var b = $("#portsel"); a = a.outputs; c = 0; a.forEach(function (a) { y(c + ": " + a.name + ', "' + a.manufacturer + '"'); b.append('<option value="' + c + '">' + a.name + "</option>"); ac.push(a); Na = a; c++; }); }
+    function Fc(a) { y("MIDI ready!Listening to following input ports:"); var c = 0; a.inputs.forEach(function (a) { a.onmidimessage = sb; y(c + ": " + a.name + ', "' + a.manufacturer + '"'); c++; }); y("The following output ports are present:"); var b = $("#portsel1"); a = a.outputs; c = 0; a.forEach(function (a) { y(c + ": " + a.name + ', "' + a.manufacturer + '"'); b.append('<option value="' + c + '">' + a.name + "</option>"); ac.push(a); Na = a; c++; }); }
     function Gc(a) { y("Failed to get MIDI access - " + a); }
-    function Hc() { var a = $("#portsel").val(); "synth" == a ? A(Nb) : "nosound" == a ? P = 0 : (P = 2, a = parseInt(a), Na = ac[a]); Zb(); }
-    function ra(a) { a in M || (a = 0); clearTimeout(U); var c = {}; M[a].forEach(function (a) { c[a] = 1; }); 3 == $("#chkmod").val() && a + 1 in M && M[a + 1].forEach(function (a) { c[a] = 1; }); oa && zc(c); z = a; }
+    function Hc() {  
+        console.log("HC 실행");
+        var a = $("#portsel1").val(); "synth" == a ? A(Nb) : "nosound" == a ? P = 0 : (P = 2, a = parseInt(a), Na = ac[a]); Zb(); }
+    function ra(a) { a in M || (a = 0); clearTimeout(U); var c = {}; M[a].forEach(function (a) { c[a] = 1; }); 3 == $("#chkmod1").val() && a + 1 in M && M[a + 1].forEach(function (a) { c[a] = 1; }); oa && zc(c); z = a; }
     function Xb(a) { z += a; 0 > z && (z = 0); z >= M.length && (z = 0); ra(z); }
     function qa() { 
         G = 1 - G; $("#menu").toggle(G); 
@@ -707,47 +862,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
         na();
         $("#wait").toggle(!1);
     }
-    function Ic() {
-        var a, c = "", b = "", d, f, e, g, u;
-        $("#err").text("");
-        a = window.location.href.replace("?dl=0", "").split("?");
-        if (d = a[0].match(/:\/\/([^/:]+)/))
-            g = d[1];
-        if (1 < a.length) {
-            f = a[1].split("&");
-            for (e = 0; e < f.length; e++)
-                a =
-                    f[e].replace(/d:(\w{15}\/[^.]+\.)/, "https://dl.dropboxusercontent.com/s/$1"), (d = a.match(/tmp=([\d.]*)/)) ? h.tempo = parseFloat(d[1]) : (d = a.match(/stf=(\d+)/)) ? h.staff = parseInt(d[1]) : (d = a.match(/mod=(\d+)/)) ? h.chkmod = parseInt(d[1]) : (d = a.match(/fmd=(\d+)/)) ? h.volgmod = parseInt(d[1]) : (d = a.match(/opa=(\d)/)) ? h.kbopa = parseInt(d[1]) : (d = a.match(/line=(\d+)/)) ? h.line = parseInt(d[1]) : (d = a.match(/pw=(\d+)/)) ? h.pw = parseInt(d[1]) : "ip" == a && g ? h.ipadr = g : "ipm" == a && g ? (h.ipadr = g, h.mstr = 1) : "nomet" == a ? h.metro = 0 : "nodel" == a ?
-                        h.delay = 0 : "keyb" == a ? h.keys = 1 : "ksh" == a ? h.mark = 1 : "syn" == a ? h.portsel = "synth" : "play" == a ? h.play = 1 : "nobar" == a ? h.nobar = 1 : "nomenu" == a ? h.nomenu = 1 : "extr" == a ? h.extract = 2 : "extrg" == a ? h.extract = 3 : "2ln" == a ? h.twosys = 1 : "nocur" == a ? h.nocur = 1 : "mute" == a ? h.mute = 1 : "sctmp" == a ? h.sctmp = 1 : b = a, /(\.xml$)|(\.abc$)/.test(b) && (c = b, b = "");
-            (b || c) && $("#wait").toggle(!0);
-
-            c ? $.get(c, "", null, "text").done(
-                function (a, b) {
-                    y("preload: " + b);
-                    Z(a); na();
-                    $("#wait").toggle(!1);
-                }).fail(function (a, b, c) {
-                    $("#wait").append("\npreload failed: " + b);
-                }) : b &&
-                (0 <= b.indexOf("dropbox.com") && (b += "?dl=1"),
-                    $.getScript(b).done(
-                        function (a, b) {
-                            y("preload: " + b); cb();
-                        }).fail(
-                            function (a, c, d) {
-                                var fileName = getparameter("sheet");
-                                $("#wait,#err").append("???");
-                                u = document.createElement("script"); u.src = b;
-                                u.onload = function () { cb(); };
-                                u.onerror = function () {
-                                    $("#wait").append(fileName);
-                                };
-                                document.head.appendChild(u);
-                                document.head.removeChild(u);
-                            }));
-        }
-        return b || c;
-    }
+    
     function dc() {
         for (var a in wb) {
             var c = $("#" + a), b = c.attr("type") || c[0].type;
@@ -907,11 +1022,11 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
             ya(a, 0);
     }
     function ya(a, c) {
-
         D && yc();
         $("#btns").toggle(!1);
         switch (a) {
-            case "canvastool":
+            case "canvastool":            
+                $('#canvas'+currentSVG).removeAttr('hidden');
                 readCanvas();
                 break;
             case "eraser":
@@ -930,7 +1045,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
                 g.mtpo = $("#mtpo").val();
                 Y = g.mtpo;
                 break;
-            case "chkmod":
+            case "chkmod1":
                 D && c && ra(z);
                 break;
             case "echo":
@@ -942,7 +1057,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
             case "volgmod":
                 Lc();
                 break;
-            case "portsel":
+            case "portsel1":
                 Hc();
                 break;
             case "keys1":
@@ -1063,7 +1178,11 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
             $.ajax({
                 url: "https://www.dropbox.com/static/api/2/dropins.js",
                 dataType: "script", cache: !0
-            }).done(function () { a(!1); Dropbox.init({ appKey: "ckknarypgq10318" }); b = Dropbox.createChooseButton({ success: C, extensions: [".xml", ".abc", ".js"], cancel: function () { }, linkType: "preview", multiselect: !1 }); $("#flbl").append(b); c(); });
+            }).done(function () { a(!1); Dropbox.init({ appKey: "ckknarypgq10318" }); 
+            b = Dropbox.createChooseButton({ success: C, extensions: [".xml", ".abc", ".js"], 
+            cancel: function () { }, 
+            linkType: "preview", multiselect: !1 }); 
+            $("#flbl").append(b); c(); });
         }
         else
             c();
@@ -1208,7 +1327,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
         c && b && ($("#fscr").prop("checked") ? c.call(a) : b.call(document));
     }
     var pa = {}, q = [], p = 0, E = -1, gb, Ia, Na, ac = [], nb = {}, eb = 60, oa, P = 0, U, aa = 0, ob, Ra, R, G, M, S = 0, $b = 1, W, mb, Sa = 1, O = 0, La = $(document.createElementNS("http://www.w3.org/2000/svg", "rect"));
-    La.attr({ id: "wijzer", fill: "red", "fill-opacity": "0.5", width: "0" });
+    La.attr({ id: "wijzer", fill: "green", "fill-opacity": "0.5", width: "0" });
     var B, Hb = [], ab = [], bb = 0, Da = {}, Jb = {}, Nb = {}, pa = {}, q = [], Fa = [], Ga = [], Lb = [];
     R = [];
     var size = 25, ia = 0, Pa = 0, N = 100, Oa, I, lb, K, V, tb, kb, cc, L = 0, Mb = 4, ub = 1, wa = 0, Y = 0, Wb, va, qb, zb = 0, xb = {}, Sb = {}, yb = {}, v = [], fb = [], Ma = [], Rb = 0, T = 0, Ha, Ob = 0, z = 0, fa = 0, pb, J, ja = 0, hb = {}, jb, xa = 0, D, Ja, g, rc = 0, Cb, Ba, Db, da, ka, Aa, ca, ea, $a, Gb = 0, uc = 0, za, n;
@@ -1282,6 +1401,7 @@ var follow_VERSION = 149, pre_opt = {}, abc_arr, demoDlg;
         Oc();
         36 > $("#info").height() && (a = $("body").height(), $("#info").css("height", Math.floor(3600 / a) + "%"), ba());
         $("#fscr").on("change", Xc);
+        $("#hlbox").on("change", highlighting);
         $("body").on("fullscreenchange webkitfullscreenchange mozfullscreenchange", function () { var a = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement; $("#fscr").prop("checked", null != a); });
     });
 })();

@@ -9,7 +9,8 @@
   <meta name="author" content="" />
 
   <!-- css -->
-  <link href="https://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700|Open+Sans:300,400,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700|Open+Sans:300,400,600,700"
+    rel="stylesheet">
   <link href="css/bootstrap.css" rel="stylesheet" />
   <link href="css/bootstrap-responsive.css" rel="stylesheet" />
   <link href="css/fancybox/jquery.fancybox.css" rel="stylesheet">
@@ -25,6 +26,11 @@
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
   <link rel="shortcut icon" href="ico/favicon.png" />
 
+  <style>
+    p {
+      text-align: center;
+    }
+  </style>
   <!-- =======================================================
     Theme Name: Flattern
     Theme URL: https://bootstrapmade.com/flattern-multipurpose-bootstrap-template/
@@ -40,7 +46,8 @@
       <div class="container">
         <!-- hidden top area toggle link -->
         <div id="header-hidden-link">
-          <a href="#" class="toggle-link" title="Click me you'll get a surprise" data-target=".hidden-top"><i></i>Open</a>
+          <a href="#" class="toggle-link" title="Click me you'll get a surprise"
+            data-target=".hidden-top"><i></i>Open</a>
         </div>
         <!-- end toggle link -->
         <div class="row nomargin">
@@ -51,7 +58,8 @@
               </ul>
             </div>
             <!-- Signup Modal -->
-            <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel" aria-hidden="true">
+            <div id="mySignup" class="modal styled hide fade" tabindex="-1" role="dialog"
+              aria-labelledby="mySignupModalLabel" aria-hidden="true">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 id="mySignupModalLabel">Create an <strong>account</strong></h4>
@@ -81,7 +89,8 @@
                       <button type="submit" class="btn">Sign up</button>
                     </div>
                     <p class="aligncenter margintop20">
-                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true" data-toggle="modal">Sign in</a>
+                      Already have an account? <a href="#mySignin" data-dismiss="modal" aria-hidden="true"
+                        data-toggle="modal">Sign in</a>
                     </p>
                   </div>
                 </form>
@@ -96,17 +105,17 @@
                 <h4 id="mySigninModalLabel">Login to your <strong>account</strong></h4>
               </div>
               <div class="modal-body">
-                <form class="form-horizontal" action= "/login" method="POST">
+                <form class="form-horizontal" action="/login" method="POST">
                   <div class="control-group">
                     <label class="control-label" for="inputSigninUsername">Username</label>
                     <div class="controls">
-                      <input type="Username" id="inputSigninUsername" placeholder="Username" name ="Username">
+                      <input type="Username" id="inputSigninUsername" placeholder="Username" name="Username">
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="inputSigninPassword">Password</label>
                     <div class="controls">
-                      <input type="password" id="inputSigninPassword" placeholder="Password" name ="Password">
+                      <input type="password" id="inputSigninPassword" placeholder="Password" name="Password">
                     </div>
                   </div>
                   <div class="control-group">
@@ -123,7 +132,8 @@
             </div>
             <!-- end signin modal -->
             <!-- Reset Modal -->
-            <div id="myReset" class="modal styled hide fade" tabindex="-1" role="dialog" aria-labelledby="myResetModalLabel" aria-hidden="true">
+            <div id="myReset" class="modal styled hide fade" tabindex="-1" role="dialog"
+              aria-labelledby="myResetModalLabel" aria-hidden="true">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 id="myResetModalLabel">Reset your <strong>password</strong></h4>
@@ -162,7 +172,7 @@
                 <nav>
                   <ul class="nav topnav">
                     <li>
-                      <a href="Community.html">Community </a>
+                      <a href="community">Community </a>
                     </li>
                     <li>
                       <a href="score-down">Download </a>
@@ -196,69 +206,154 @@
         </div>
       </div>
     </section>
+    <!-- Search form -->
+
     <section id="content">
       <div class="container">
         <div class="row">
           <div class="span12">
-            <ul class="portfolio-categ filter">
-              <li class="all active"><a href="#">All</a></li>
-              <li class="web"><a href="#" title="">마음만은 피아니스트</a></li>
-              <li class="icon"><a href="#" title=""> IN DataBase </a></li>
-            </ul>
-            <div class="clearfix">
-            </div>
             <div class="row">
               <section id="projects">
-                <ul id="thumbs" class="portfolio">
-                  <!-- Item Project and Filter Name -->
-                  <!--20190510 KJ 악보 다운로드-->
-                
-                <li class="item-thumbs span4 design" data-id="id-0" data-type="web">
-                    <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                    <!-- Thumb Image and Description -->
-                    <img src="img/works/thumbs/image-01.jpg" alt="submit">
-                    <!--input type="submit" value="작은별" name ="score_name"-->
-                   
-
-                    <div class="span4">
-                      <a href="?score_name=testScore" onClick="javascript:alert('다운로드 성공')">악보 다운로드</a>
-                    </div>
-                    
-                </li>
-                  <!-- End Item Project -->
-                  
-                  <!-- Item Project and Filter Name -->
-                  <li class="item-thumbs span4 design" data-id="id-1" data-type="icon">
-                    <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                  
-                    <!-- Thumb Image and Description -->
-                    <img src="img/works/thumbs/image-02.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-                    
-                    <div class="span4">
-                        <a href="?score_name=testScore2" onClick="javascript:alert('다운로드 성공')">악보 다운로드</a>
-                    </div>
-
+                <form class="form-inline md-form mr-auto mb-4">
+                  <input class="form-control mr-sm-2" type="text" id="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-warning btn-rounded btn-sm my-0" id="searchbtn">Search</button>
+                </form>
+                <br>
+                <br>
+                <ul id="thumbs">
+                  <li class="item-thumbs span4 design" data-id="id-11">
+                    <a> ●작은별 변주곡 </a> <br>
+                    <img src="img/works/thumbs/작은별 변주곡.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=작은별 변주곡" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
                   </li>
-                  <!-- End Item Project -->
 
-                  <!-- Item Project and Filter Name -->
-                  <li class="item-thumbs span4 photography" data-id="id-2" data-type="graphic">
-                    <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                    <!-- Thumb Image and Description -->
-                    <img src="img/works/thumbs/image-03.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-                    <div class="span4">
-                        <ul class="nav topnav">
-                        <a href="?score_name=testScore3" onClick="javascript:alert('다운로드 성공')">악보 다운로드</a>
-                        </ul>
-                    </div>
+                  <li class="item-thumbs span4 design" data-id="id-3">
+                    <a> ●Bohemian_Rhapsody_for_Piano </a> <br>
+                    <img src="img/works/thumbs/Bohemian_Rhapsody_for_Piano.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Bohemian_Rhapsody_for_Piano" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
                   </li>
-                  <!-- End Item Project -->
-                  <!-- Item Project and Filter Name -->
-                  <li class="item-thumbs span4 design" data-id="id-0" data-type="web">
-                    <!-- Fancybox - Gallery Enabled - Title - Full Image -->
-                    <a class="hover-wrap fancybox" data-fancybox-group="gallery" title="Portfolio name" href="img/works/full/image-04-full.jpg">
-						<span class="overlay-img"></span>
-                 
+
+
+                  <li class="item-thumbs span4 design" data-id="id-6">
+                    <a> ●La_La_Land_-_City_of_Stars </a> <br>
+                    <img src="img/works/thumbs/La_La_Land_-_City_of_Stars.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=La_La_Land_-_City_of_Stars" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+
+                  <li class="item-thumbs span4 design" data-id="id-7">
+                    <a> ●River_Flows_In_You </a> <br>
+                    <img src="img/works/thumbs/River_Flows_In_You.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=River_Flows_In_You" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+                  <li class="item-thumbs span4 design" data-id="id-8">
+                    <a> ●Undertale_-_100_MEGALOVANIA </a> <br>
+                    <img src="img/works/thumbs/Undertale_-_100_MEGALOVANIA.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Undertale_-_100_MEGALOVANIA" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+
+                  <li class="item-thumbs span4 design" data-id="id-1">
+                    <a> ●Despacito </a> <br>
+                    <img src="img/works/thumbs/Despacito_Piano_Sheet_Music_Luis_Fonsi_ft_Daddy_Yankee.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Despacito_Piano_Sheet_Music_Luis_Fonsi_ft_Daddy_Yankee"
+                        class="btn btn-medium btn-theme" onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보
+                        다운로드</a>
+                    </p>
+                  </li>
+
+                  <li class="item-thumbs span4 design" data-id="id-2">
+                    <a> ●Twinkle Twinkle Little Star </a> <br>
+                    <img src="img/works/thumbs/Twinkle Twinkle Little Star.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Twinkle Twinkle Little Star" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+
+                  <li class="item-thumbs span4 design" data-id="id-4">
+                    <a> ●Salut_dAmour_Loves_Greeting_Op._12. </a> <br>
+                    <img src="img/works/thumbs/Salut_dAmour_Loves_Greeting_Op._12..jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Salut_dAmour_Loves_Greeting_Op._12." class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+
+                  <li class="item-thumbs span4 design" data-id="id-5">
+                    <a> ●Jon_Schmidt_-_All_of_me </a> <br>
+                    <img src="img/works/thumbs/Jon_Schmidt_-_All_of_me.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Jon_Schmidt_-_All_of_me" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+
+                  <li class="item-thumbs span4 design" data-id="id-9">
+                    <a> ●Alan_Walker_-_Faded </a> <br>
+                    <img src="img/works/thumbs/Alan_Walker_-_Faded.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Alan_Walker_-_Faded" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+
+                  <li class="item-thumbs span4 design" data-id="id-10">
+                    <a> ●Ed_Sheeran_Perfect_Piano_Cover </a> <br>
+                    <img src="img/works/thumbs/Ed_Sheeran_Perfect_Piano_Cover.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Ed_Sheeran_Perfect_Piano_Cover" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+
+                  <li class="item-thumbs span4 design" data-id="id-12">
+                    <a> ●Salut_dAmour_-Piano </a> <br>
+                    <img src="img/works/thumbs/Salut_dAmour_-Piano.jpg">
+                    <br>
+                    <br>
+                    <p>
+                      <a href="?score_name=Salut_dAmour_-Piano" class="btn btn-medium btn-theme"
+                        onClick="javascript:alert('다운로드 성공! Mypage에서 확인하세요.')">악보 다운로드</a>
+                    </p>
+                  </li>
+
                 </ul>
               </section>
             </div>
@@ -289,6 +384,7 @@
 
   <!-- Template Custom JavaScript File -->
   <script src="js/custom.js"></script>
+  <script src="js/download.js"></script>
 
 </body>
 
